@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
 
 class Com extends Component { //继承时不用写react
-  constructor (props) {
-    super(props);
-    console.log('1',this);
+  constructor (props){
+  super(props);
+    this.state = {
+      list: [] 
   }
-
-  btnClickFn () {
-    console.log('2',this)
+}
+  componentDidMount () {
+    fetch('http://www.daxunxun.com/douban').then(res => res.json()).then(data => {
+      console.log(data)
+      this.setState({
+        list:data
+      })
+    })
   }
   render () {
     return (
-      <div>
-        <button onClick = { this.btnClickFn.bind(this) }>react按钮</button>
-      </div>
+      <ul>
+       {
+         this.state.list.map(item => {
+           return (<li key = { item.id }>{item.title}</li>)
+         })
+       }
+      </ul>
     )
   }
 }
